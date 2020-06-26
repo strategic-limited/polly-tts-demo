@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+    <title>TTS-Client</title>
+    <style>
+    </style>
+</head>
+<body>
+<div>
+    <input id="text" class="text" name="text">
+    <input id="getVoiceButton" type="submit" value="get voice" class="submitButton">
+    <label for="voices">Choose the voice:</label>
+    <select name="voices" id="voices">
+        <option value="Salli">Salli, Female</option>
+        <option value="Joanna">Joanna, Female</option>
+        <option value="Matthew">Matthew, Male</option>
+        <option value="Joey">Joey, Male</option>
+    </select>
+    <p>Please select engine:</p>
+    <input value="standard" name="engine" type="radio" id="standard" checked="true">
+    <label for="standard">Standard</label><br>
+    <input value="neural" name="engine" type="radio" id="neural">
+    <label for="neural">Neural</label><br>
+</div>
+<div id='downloadDiv'>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+<script>
+
+  let downloadUri;
+  let downloadLink;
+  let br;
+  let player ;
+  let Title;
+  let downloadDiv= document.getElementById('downloadDiv');
+  const socket = io('http://localhost:5559');
+  socket.on("message", (data) => {
+    player = document.createElement("AUDIO");
+    downloadLink = document.createElement('a');
+    br = document.createElement('br');
+    Title = document.createElement('p');
+
+
+    downloadUri = data.message.outputUri;
+    downloadLink.innerText = data.message.text;
+    downloadLink.href = downloadUri;
+    player.src = downloadUri;
+    player.controls = 'controls';
+    player.autoplay = true;
+    Title.innerText = data.message.voiceId;
+
+    downloadDiv.appendChild(Title);
+    downloadDiv.appendChild(player);
+    downloadDiv.appendChild(downloadLink);
+    downloadDiv.appendChild(br);
+    downloadDiv.appendChild(br);
+  });
+
+  let url = 'http://localhost:5559/test';
+
+  const getVoiceButton = document.getElementById('getVoiceButton');
+
+  function getText() {
+    return document.getElementById("text").value;
+  }
+  function getEngine(){
+     let radioButtons = document.getElementsByName("engine");
+     let checked;
+     for (let i = 0 ;i < radioButtons.length; i++){
+       if (radioButtons[i].checked === true){
+          checked = radioButtons[i].value;
+       }
+     }
+    return checked;
+  }
+  getEngine();
+  function getVoice(){
+    return document.getElementById("voices").value
+  }
+
+  getVoiceButton.onclick = function(){
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", url);
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.send(JSON.stringify({
+      "text": getText(),
+      "engine": getEngine(),
+      "voice": getVoice()
+    }));
+  }
+
+</script>
+</body>
+</html>

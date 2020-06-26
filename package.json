@@ -1,0 +1,25 @@
+{
+  "name": "tts-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "module": "src/main.js",
+  "scripts": {
+    "dev": "node-dev -r esm index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.692.0",
+    "body-parser": "latest",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.18",
+    "node-uuid": "^1.4.8",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "speaker": "^0.5.1",
+    "sqs-consumer": "^5.4.0"
+  }
+}
