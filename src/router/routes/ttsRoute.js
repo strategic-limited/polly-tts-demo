@@ -1,4 +1,5 @@
 import express from 'express'
+import path from 'path'
 import { ttsController } from '../../controller/speechTask.controller'
 
 
@@ -12,7 +13,7 @@ router.post('/test', wrapAsync(async (req, res) => {
   return res.json(await ttsController.createTask(req.body))
 }));
 router.get('/tts', wrapAsync(async (req, res) => {
-  return res.sendFile('/Users/Oba/WebstormProjects/WORK/VEDIDEV/TTS-demo/src/client/index.html');
+  return res.sendFile(path.join(__dirname +  './../../client/index.html'));
 }));
 
 module.exports = router;

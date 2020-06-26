@@ -15,9 +15,9 @@ export default (data) => {
       'LanguageCode': "en-US",
       'OutputFormat': 'mp3',
       'VoiceId': data.voice,
-      'OutputS3BucketName': 'videoremix-tts',
+      'OutputS3BucketName': process.env.AWS_BUCKET_NAME,
       'OutputS3KeyPrefix': `test/${data.engine}`,
-      'SnsTopicArn': 'arn:aws:sns:us-east-1:635849326894:videoremix-tts'
+      'SnsTopicArn': process.env.AWS_SNS_TOPIC_ARN,
     };
 
     Polly.startSpeechSynthesisTask(params, (err, data) => {
